@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Today 국회</title>
+    <link rel="shortcut icon" href="static/favicon.png" type="image/x-icon">
+    <meta property="og:title" content="오늘의 법"/>
+    <meta property="og:description" content="오늘도 발의되는 여러 법안들 간편하게 살펴보자!!"/>
+    <meta property="og:image" content="{{ url_for('static', filename='congress.png') }}"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <!-- img -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8" src="static/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="static/js/jquery.vticker.min.js"></script>
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+    <!-- 폰트 JUA -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <!-- 폰트 Nanum Gothic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <!-- js 불러오기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="/static/js/index.js"></script>
+    <script src="/static/js/scroll.js"></script>
+    <script src="/static/js/login.js"></script>
+    <script src="/static/js/category.js"></script>
+    <script src="/static/js/yesterday.js"></script>
+
+    <style>
+        .column {
+            height: 150px;
+            margin: 10px;
+            font-size: 1.2em;
+            -webkit-box-shadow: -7px 11px 25px -9px rgba(0, 0, 0, 1);
+            -moz-box-shadow: -7px 11px 25px -9px rgba(0, 0, 0, 1);
+            box-shadow: -7px 11px 25px -9px rgba(0, 0, 0, 1);
+        }
+    </style>
+
+</head>
+<body>
+
+<section class="hero is-info is-small">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                        <img onclick="window.location.href='/'" src="./static/congress.png" alt="Logo">
+                    </a>
+                    <span class="navbar-burger" data-target="navbarMenuHeroB">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+                </div>
+                <div id="navbarMenuHeroB" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="index.html" class="navbar-item">
+                            Today 국회
+                        </a>
+                        <a href="categoryList.html" class="navbar-item">
+                            카테고리별 법안목록
+                        </a>
+                        <a href="yesterday.html" class="navbar-item">
+                            어제의 국회
+                        </a>
+                        <span id="navbar" class="navbar-item">
+                            <a onclick="show_login_modal()" class="button is-info is-inverted" id="login_button">
+                                <span>로그인</span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="quickmenu">
+        <ul>
+            <li onclick="scrollToTop()" class="far fa-caret-square-up fa-2x" style="color: rgb(62,142,208)">
+            </li>
+            <li onclick="scrollToBottom()" class="far fa-caret-square-down fa-2x" style="color: rgb(62,142,208)"></li>
+        </ul>
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+                Today 국회
+            </p>
+            <img onclick="window.location.href='/'" class="title-logo" src="./static/congress.png" alt="Logo"/>
+            <p class="subtitle" style="margin: auto">
+                국회 발의 법안 간편하게 보자!
+            </p>
+            <br/>
+            <p class="title" style="margin: 0 auto 30px auto;">
+                어제 국회 머했니 ~?
+            </p>
+
+
+            <div class="dropdown" id="yesterday-status" onclick="yesterday_toggle()">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu3">
+                        <span>처리상태</span>
+                        <span class="icon is-small">
+        <i class="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+                    <div class="dropdown-content">
+                        <a onclick="get_yesterday_info('제출')" class="dropdown-item">
+                            제출
+                        </a>
+                        <a onclick="get_yesterday_info('발의')" class="dropdown-item">
+                            발의
+                        </a>
+                        <a onclick="get_yesterday_info('회부')" class="dropdown-item">
+                            회부
+                        </a>
+                        <a onclick="get_yesterday_info('상정')" class="dropdown-item">
+                            상정
+                        </a>
+                        <a onclick="get_yesterday_info('본회의부의')" class="dropdown-item">
+                            본회의부의
+                        </a>
+                        <a onclick="get_yesterday_info('처리')" class="dropdown-item">
+                            처리
+                        </a>
+                        <a onclick="get_yesterday_info('공포')" class="dropdown-item">
+                            공포
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="button is-light" onclick="window.location.href='/yesterday'" style="font-weight: bold">전체보기
+            </button>
+        </div>
+
+    </div>
+</section>
+<section class="section cards">
+    <div class="container">
+            <div class="columns is-multiline is-centered" id="law-card-box">
+
+            </div>
+    </div>
+</section>
+
+</body>
+</html>
+
+

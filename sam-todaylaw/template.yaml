@@ -1,0 +1,277 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  sam-todaylaw
+
+  Sample SAM Template for sam-todaylaw
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 60
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: get
+  ListFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_list/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /laws
+            Method: get
+      Policies: # SecretsManager 설정
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue # 보안암호를 가져온다?
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m # SecretManager ARN
+  DetailFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_detail/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /detail
+            Method: post
+      Policies: # SecretsManager 설정
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue # 보안암호를 가져온다?
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m # SecretManager ARN
+  RankFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_rank/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /rank
+            Method: get
+      Policies: # SecretsManager 설정
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue # 보안암호를 가져온다?
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m # SecretManager ARN
+  KakaoLoginFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_kakao_login/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /kakao-login
+            Method: post
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  LoginCheckFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_login_check/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /login-check
+            Method: get
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  BookmarkGet:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_bookmark_get/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /bookmark
+            Method: get
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  BookmarkAdd:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_bookmark_add/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /bookmark
+            Method: post
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  BookmarkDelete:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_bookmark_delete/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /bookmark
+            Method: delete
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  LikeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_like/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /like
+            Method: post
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  HateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_hate/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /hate
+            Method: post
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+  LikeListFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      MemorySize: 1024
+      CodeUri: tl_like_list/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Architectures:
+        - x86_64
+      Events:
+        TodayLawList:
+          Type: Api
+          Properties:
+            Path: /likes
+            Method: get
+      Policies:
+        - Statement:
+            - Sid: AWSSecretsManagerGetSecretValuePolicy
+              Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: arn:aws:secretsmanager:ap-northeast-2:771839060615:secret:todaylaw-secret-WRPv2m
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn

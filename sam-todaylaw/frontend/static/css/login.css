@@ -1,0 +1,45 @@
+ul, li {
+    list-style: none;
+    text-align: center;
+}
+
+.content ul {
+    margin-left: 0.1em !important;
+}
+
+.content ul li:nth-child(1){
+    height: 62px;
+}
+.content ul li:nth-child(2){
+    height: 52px;
+}
+
+.content ul li button {
+    width: 70%;
+    background-size: cover;
+    border: none;
+}
+
+.content ul li button:focus {
+    border: none;
+    outline: none;
+}
+
+.img_kakao {
+    height: 70px;
+    background: url("../images/kakao.png");
+}
+
+.img_google {
+    height: 63px;
+    background: url("../images/google.png") no-repeat;
+}
+
+.img_naver {
+    height: 74px;
+    background: url("../images/naver.png") no-repeat;
+}
+
+.social_button button:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Today 국회</title>
+    <link rel="shortcut icon" href="static/favicon.png" type="image/x-icon">
+    <meta property="og:title" content="오늘의 법"/>
+    <meta property="og:description" content="오늘도 발의되는 여러 법안들 간편하게 살펴보자!!"/>
+    <meta property="og:image" content="{{ url_for('static', filename='congress.png') }}"/>
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/mypage.css">
+    {#    <link rel="stylesheet" href="./static/css/login.css">#}
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <!-- img -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8" src="static/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="static/js/jquery.vticker.min.js"></script>
+
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+    <!-- 폰트 JUA -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <!-- 폰트 Nanum Gothic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+    <!-- js 불러오기 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+    <script src="./static/js/login.js"></script>
+    <script src="./static/js/wish.js"></script>
+    <script src="./static/js/mypage.js"></script>
+
+</head>
+
+<body>
+<section class="hero is-info is-small">
+    <div class="hero-head">
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                        <img onclick="window.location.href='/'" src="./static/congress.png" alt="Logo">
+                    </a>
+                    <span class="navbar-burger" data-target="navbarMenuHeroB">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+                </div>
+                <div id="navbarMenuHeroB" class="navbar-menu">
+                    <div class="navbar-end">
+                        <a href="/" class="navbar-item">
+                            Today 국회
+                        </a>
+                        <a href="/category" class="navbar-item">
+                            카테고리별 법안목록
+                        </a>
+                        <a href="/yesterday" class="navbar-item">
+                            어제의 국회
+                        </a>
+                        <span id="navbar" class="navbar-item">
+                            <a onclick="show_login_modal()" class="button is-info is-inverted" id="login_button">
+                                <span>로그인</span>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</section>
+<div class='columns'>
+    <div class='container profile'>
+        <div id="profile-container">
+
+        </div>
+        <div class='profile-options is-fullwidth'>
+            <div class='tabs is-fullwidth is-medium'>
+                <ul class="page-list">
+                    <li class='link is-active'>
+                        <a>
+                            <span class='icon'>
+                                <i class='fa fa-list'></i>
+                            </span>
+                            <span>최근 본 법안</span>
+                        </a>
+                    </li>
+                    <li class='link'>
+                        <a>
+                            <span class='icon'>
+                                <i class='fa fa-thumbs-up'></i>
+                            </span>
+                            <span>좋아요한 법안</span>
+                        </a>
+                    </li>
+                    <li class='link'>
+                        <a>
+                            <span class='icon'>
+                                <i class='fa fa-search'></i>
+                            </span>
+                            <span>작성한 청원</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="mypage-contents">
+
+            <div id="mypage-box" class='columns is-mobile'>
+                <div class='column is-3-tablet is-6-mobile'>
+                    <div class='card'>
+                        <p class="card-header-title">법안이름</p>
+                        <div class='card-content'>
+                            <div class='content'>
+                                <span class='tag is-dark subtitle'>#1</span>
+                                <p>내용 요약.</p>
+                            </div>
+                        </div>
+                        <footer class='card-footer'>
+                            <a class='card-footer-item'>공유</a>
+                            <a class='card-footer-item'>삭제</a>
+                        </footer>
+                    </div>
+
+                    <br>
+                </div>
+
+                <div class='columns is-mobile' id="mypage-contents-body">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

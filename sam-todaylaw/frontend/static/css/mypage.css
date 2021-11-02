@@ -1,0 +1,85 @@
+html, body, #app {
+  height: 100%;
+}
+#app {
+  min-height: 100%;
+  //display: flex;
+  //flex-direction: column;
+}
+.main-content {
+  //flex: 1;
+}
+.footer {
+  margin-top: -12px;
+}
+
+.container.profile {
+  margin-top:50px;
+}
+.profile-heading {
+  margin: 20px 0;
+  padding-bottom: 30px;
+}
+.profile-heading .name {
+  border-right: 1px solid #f1f1f1;
+  margin:-30px 0;
+  padding: 40px 30px 0 30px;
+}
+
+.tagline {
+  padding:20px 0;
+  font-size: 16px;
+  line-height: 1.4;
+}
+.avatar {
+  float: right;
+}
+
+.avatar img {
+  border-radius: 200px;
+}
+
+p.title.is-bold {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  #menu-toggle:checked + .nav-menu {
+    display: block;
+  }
+}
+
+.stat-val {
+  font-size: 3em;
+  padding-top: 20px;
+  font-weight: bold;
+}
+
+.stat-key {
+  font-size: 1.4em;
+  font-weight: 200;
+}
+
+.section.profile-heading .column.is-2-tablet.has-text-centered + .has-text-centered {
+  border-left: 1px dotted rgba(0, 0, 0, 0.2);
+}
+
+.container.profile {
+  margin-top: 1%;
+}
+
+.control.is-pulled-left span.select {
+  margin-right: 5px;
+  border-radius: 2px;
+}
+
+.modal-card .content h1 {
+  padding: 40px 10px 10px;
+  border-bottom: 1px solid #dadada;
+}
+
+.container.profile .profile-options .tabs ul li.link a {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #F1F1F1;
+}
